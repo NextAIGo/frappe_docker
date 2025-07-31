@@ -1,0 +1,49 @@
+# 开发环境补充配置 - 添加数据库和Redis服务
+version: "3.8"
+
+services:
+  # 数据库服务
+  db:
+    image: mariadb:10.6
+    command:
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+      - --skip-character-set-client-handshake
+      - --skip-innodb-read-only-compressed
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD:-123}
+      MARIADB_ROOT_PASSWORD: ${DB_PASSWORD:-123}
+    volumes:
+      - db-data:/var/lib/mysql
+    ports:
+      - "3306:3306"
+    healthcheck:
+      test: mysqladmin ping -h localhost --password=${DB_PASSWORD:-123}
+      interval: 1s
+      retries: 20
+
+  # Redis 缓存
+  redis-cache:
+    image: redis:6.2-alpine
+    volumes:
+      - redis-cache-data:/data
+
+  # Redis 队列
+  redis-queue:
+    image: redis:6.2-alpine
+    volumes:
+      - redis-queue-data:/data
+
+  # 覆盖环境变量，指向本地服务
+  configurator:
+    environment:
+      DB_HOST: db
+      DB_PORT: "3306"
+      REDIS_CACHE: redis-cache:6379
+      REDIS_QUEUE: redis-queue:6379
+      SOCKETIO_PORT: "9000"
+
+volumes:
+  db-data:
+  redis-cache-data:
+  redis-queue-data:

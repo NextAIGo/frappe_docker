@@ -4,6 +4,15 @@
 # mounted volume
 sites
 
+# Apps directory - contains separate git repositories (user forks)
+apps/
+
+# Logs directory - runtime generated logs
+logs/
+
+# History directory - VS Code plugin generated
+.history/
+
 development/*
 !development/README.md
 !development/installer.py

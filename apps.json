@@ -1,0 +1,14 @@
+[
+  {
+    "url": "https://github.com/NextAIGo/frappe.git",
+    "branch": "v15.74.0"
+  },
+  {
+    "url": "https://github.com/NextAIGo/erpnext.git",
+    "branch": "v15.72.1"
+  },
+  {
+    "url": "https://github.com/your-username/your-custom-app.git",
+    "branch": "main"
+  }
+]
